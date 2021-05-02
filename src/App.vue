@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <ThemeToggler/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapGetters } from 'vuex'
+import ThemeToggler from './components/ThemeToggler'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    ThemeToggler,
+  },
+  beforeMount() {
+    this.$store.dispatch("initTheme")
+  },
+  computed: {
+    ...mapGetters({ theme: 'getTheme' }),
+  },
+  watch: {
+    theme(newTheme) {
+      newTheme === 'light' 
+      ? document.documentElement.classList.remove('dark')
+      : document.documentElement.classList.add('dark')
+    }
   }
+
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
